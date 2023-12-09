@@ -28,8 +28,6 @@
 
     <div class="map" ref="map">
     </div>
-
-    
   </div>
 </template>
 
@@ -41,6 +39,9 @@ export default {
       zoom: 10,
       latitude: 37.3595704,
       longitude: 127.105399,
+      marker: null,
+      infowindow: null,
+      contentString: null,
     };
   },
   mounted() {
@@ -60,6 +61,25 @@ export default {
       };
 
       this.map = new window.naver.maps.Map(this.$refs.map, mapOptions);
+
+      this.marker = new window.naver.maps.Marker({
+        map: this.map,
+        position: new window.naver.maps.LatLng(this.latitude, this.longitude),
+      });
+      
+      this.infowindow = new window.naver.maps.InfoWindow({
+        content: this.contentString
+      });
+
+      window.naver.maps.Event.addListener(this.marker, 'click', (e) => {
+        if (this.infowindow.getMap()) {
+          this.infowindow.close();
+        } else {
+          this.infowindow.open(this.map, this.marker);
+        }
+      });
+
+
     },
     zoomIn() {
       this.zoom += 1;
@@ -75,7 +95,7 @@ export default {
       this.map.setCenter(newCenter);
     },
   },
-};
+}; 
 </script>
 
 <style>
