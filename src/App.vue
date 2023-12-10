@@ -1,6 +1,6 @@
 <template>
   <div class="bg">
-    <!-- <div class="map-controller">
+    <div class="map-controller">
       <div class="my-location">
         <button type="submit" @click="updateCenter"><span>현재위치</span></button>
       </div>
@@ -14,71 +14,23 @@
     <div class="searchbar">
       <input type="search" placeholder="동/읍/면을 입력해주세요">
       <button type="submit"><span>검색</span></button>
-    </div> -->
-    <div class="map" ref="map">
+    </div>
+    <div class="map" ref="map" id ="map">
     </div>
   </div>
 </template>
 
-<script setup>
-import { ref, onMounted } from 'vue';
-
-let map = ref(null);
-let zoom = ref(10);
-let latitude = ref(37.3595704);
-let longitude = ref(127.105399);
-
-onMounted(() => {
-  // Load the Naver Maps JavaScript API
-  const script = document.createElement('script');
-  script.src = 'https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=YOUR_CLIENT_ID';
-  script.async = true;
-  script.onload = initializeMap;
-  document.head.appendChild(script);
-});
-
-function initializeMap() {
-  map.value = new naver.maps.Map('map',{
-    center: new naver.maps.LatLng(latitude, longitude),
-    zoom: zoom 
-  });
-
-    // const marker = new window.naver.maps.Marker({
-    //   map: map.value,
-    //   position: new window.naver.maps.LatLng(latitude, longitude),
-    // });
-
-    // const contentString = [];
-
-    // const infowindow = new window.naver.maps.InfoWindow({
-    //   content: contentString,
-    // });
-
-    // window.naver.maps.Event.addListener(marker, 'click', function (e) {
-    //   if (infowindow.getMap()) {
-    //     infowindow.close();
-    //   } else {
-    //     infowindow.open(map.value, marker);
-    //   }
-    // });
-
-    // infowindow.open(map.value, marker);
-  
-}
-</script>
-
-<!-- 
 <script>
 export default {
   data() {
     return {
       map: null,
-      zoom: 10,
+      zoom: 14,
       latitude: 37.3595704,
       longitude: 127.105399,
       marker: null,
       infowindow: null,
-      contentString: null,
+      contentString:  '<div class="info"><p>TEST</p></div>',
     };
   },
 
@@ -107,7 +59,7 @@ export default {
       });
       
       this.infowindow = new window.naver.maps.InfoWindow({
-        content: '<div style="width:200px;height:200px;z-index:0;">testtesttestetsetsetsettttttttttttttttttttttttttttttttttttttttttttttttttttttttttt</div>'
+        content: this.contentString
       });
 
       window.naver.maps.Event.addListener(this.marker, 'click', (e) => {
@@ -135,7 +87,7 @@ export default {
     },
   },
 }; 
-</script> -->
+</script>
 
 <style>
   body{
@@ -150,7 +102,6 @@ export default {
   .map{
     width: 100%;
     height: 100vh;
-    font-size: 0px;
     margin: 0;
     padding : 0;
     position: absolute;
@@ -171,5 +122,14 @@ export default {
     position: absolute;
     z-index: 2;
     align-items: center;
+  }
+  .info{
+    width: 200px;
+    height: 200px;
+    display: flex;
+    position: absolute;
+    z-index: 1;
+    margin: 0;
+    padding : 0;
   }
 </style>
